@@ -12,15 +12,16 @@ st.title("🦷 AI 기반 RPD 디자인 시뮬레이터")
 MODEL_URL = "https://github.com/ultralytics/yolov5/releases/download/v6.0/yolov5s.pt"
 MODEL_PATH = "yolov5s.pt"
 
-# 모델 다운로드 (처음 한 번만)
+# 모델 다운로드
 if not os.path.exists(MODEL_PATH):
     with st.spinner("모델 다운로드 중입니다..."):
         urllib.request.urlretrieve(MODEL_URL, MODEL_PATH)
         st.success("모델 다운로드 완료!")
 
-# 모델 불러오기
-model = torch.hub.load("ultralytics/yolov5", "custom", path=MODEL_PATH)
+# 💡 torch.hub.load 대신 version 명시
+model = torch.hub.load('ultralytics/yolov5:main', 'custom', path=MODEL_PATH, force_reload=True)
 
+# 이미지 업로드 메뉴
 uploaded_file = st.file_uploader("치아 악궁 이미지를 업로드하세요", type=["jpg", "jpeg", "png"])
 
 if uploaded_file:
